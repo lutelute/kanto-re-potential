@@ -141,3 +141,15 @@ docs/                         # GitHub Pages
 - Al Garni & Awasthi (2017), Applied Energy - GIS-AHP solar site selection
 - Doorga et al. (2019), Renewable Energy - Multi-criteria GIS solar farm modelling
 - Shorabeh et al. (2019), Renewable Energy - Risk-based MCDA for solar in Iran
+
+## ライセンスと出典 / License & Attribution
+
+- コード / Code: MIT（[LICENSE](LICENSE)）
+- 送電網データ / Grid data（`docs/<県>/lines_66kv.geojson`, `subs_66kv.geojson`, `data/tochigi/grid/tochigi_*_list.csv`）: [All-Japan-Grid](https://github.com/lutelute/All-Japan-Grid) 経由の OpenStreetMap 派生データ。© [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors、[ODbL 1.0](https://opendatacommons.org/licenses/odbl/)（`cap_*` 列は除く）
+- 適地スコア / Score layers（`docs/all/`, `docs/<県>/` のタイル・メッシュ, `output/*.tif`）: OpenStreetMap（© OpenStreetMap contributors）・国土数値情報・SRTM をもとに作成
+- 国土数値情報: 「国土数値情報（土地利用細分メッシュ（ラスタ版）データ）」「国土数値情報（行政区域データ）」（国土交通省, https://nlftp.mlit.go.jp/ksj/）をもとに作成
+- 標高・傾斜 / Elevation: SRTM（NASA / USGS、パブリックドメイン。[Terrain Tiles on AWS](https://registry.opendata.aws/terrain-tiles/) 経由）
+- 系統空容量 / Grid capacity: 東京電力パワーグリッド「空容量マッピング」（2025/1/7 時点）を PDF から抽出（`data/*/grid/capacity_*.csv` ほか）。**本リポジトリのライセンス（MIT・ODbL）の対象外で、権利は東京電力パワーグリッドに帰属。再配布条件は確認中**
+- 再エネポテンシャル / RE potential: 環境省 REPOS の推計値をもとにした按分推計（`data/tochigi/potential/repos_tochigi.csv` ほか）。**本リポジトリのライセンスの対象外。REPOS の利用条件は確認中**
+- 背景地図 / Basemaps: CARTO・OpenStreetMap・[地理院タイル](https://maps.gsi.go.jp/development/ichiran.html)・Google、ハザード: [ハザードマップポータルサイト](https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html)（いずれも表示時に読み込むだけで再配布しない）
+- 出典の詳細 / Full notices: [NOTICE](NOTICE)

@@ -1,0 +1,103 @@
+kanto-re-potential — Third-Party Data Notices and Attributions
+==============================================================
+
+This repository combines original code (MIT) with data that is derived from
+several third-party sources. Attributions and licenses:
+
+1. OpenStreetMap — transmission lines, substations, roads, land use
+   - (c) OpenStreetMap contributors
+   - Open Database License (ODbL) v1.0 — https://opendatacommons.org/licenses/odbl/
+   - docs/<pref>/lines_66kv.geojson, docs/<pref>/subs_66kv.geojson and
+     data/tochigi/grid/tochigi_{lines,substations}_list.csv are extracts of
+     All-Japan-Grid (https://github.com/lutelute/All-Japan-Grid), which is
+     built from OpenStreetMap. They are a Derivative Database and are
+     therefore distributed under ODbL (share-alike) — EXCEPT the cap_* fields
+     in lines_66kv.geojson, which come from TEPCO Power Grid (see 5).
+   - Major roads are fetched live from the Overpass API (overpass-api.de)
+     by docs/index.html; OSM land use / roads are also used as scoring inputs.
+   - The score layers (docs/all/, docs/<pref>/tiles*, mesh_*.geojson,
+     mesh.pmtiles, mesh_score.tif, docs/<pref>/*.png, output/*.tif) are
+     computed from OpenStreetMap together with the sources in 2 and 3;
+     keep "(c) OpenStreetMap contributors" when reusing them.
+
+2. National Land Numerical Information / 国土数値情報 (MLIT, Japan)
+   - 土地利用細分メッシュ（ラスタ版）データ (L03-b-r) — 使用許諾条件: 商用可
+     https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-L03-b_r.html
+     (land-use score)
+   - 行政区域データ (N03, 2024) — 使用許諾条件: オープンデータ (CC BY 4.0)
+     https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2024.html
+     (docs/<pref>/boundary.geojson, prefecture masks, municipality polygons in
+     data/potential/tochigi_potential.geojson)
+   - 出典 / Attribution:
+       「国土数値情報（土地利用細分メッシュ（ラスタ版）データ）」（国土交通省）
+       （https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-L03-b_r.html）をもとに作成
+       「国土数値情報（行政区域データ）」（国土交通省）
+       （https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2024.html）をもとに作成
+   - Terms: 国土数値情報ダウンロードサイト コンテンツ利用規約
+     https://nlftp.mlit.go.jp/ksj/other/agreement.html
+     The data in this repository is processed by the repository author and
+     is not published by the Government of Japan.
+   - src/download_land_data.py also downloads 森林地域 (A13, 使用許諾条件: 非商用)
+     and 農業地域 (A12, CC BY 4.0, 一部制限: 岡山県のみ非商用). They are used only
+     by src/build_map.py / src/build_integrated_map.py; the raw files are not
+     tracked (data/land/ is gitignored) and they are not included in the
+     published pages. Observe these conditions if you publish maps generated
+     by those scripts.
+
+3. Elevation / slope — SRTM
+   - NASA Shuttle Radar Topography Mission (SRTM), public domain (NASA / USGS)
+   - Obtained via Terrain Tiles on AWS (Mapzen / Tilezen, "skadi" HGT tiles)
+     https://registry.opendata.aws/terrain-tiles/
+     Attribution guidance: https://github.com/tilezen/joerd/blob/master/docs/attribution.md
+
+4. Map tiles loaded at runtime by the web maps (NOT redistributed)
+   - CARTO basemaps — (c) OpenStreetMap contributors (c) CARTO
+     https://carto.com/attributions
+   - OpenStreetMap standard tiles — (c) OpenStreetMap contributors
+     Tile usage policy: https://operations.osmfoundation.org/policies/tiles/
+   - 地理院タイル（標準地図・全国最新写真（シームレス））— 出典: 国土地理院
+     https://maps.gsi.go.jp/development/ichiran.html
+     (low zoom levels of the seamless photo include Landsat-8 imagery,
+     courtesy of NASA / USGS)
+   - ハザードマップポータルサイト「重ねるハザードマップ」オープンデータ
+     （洪水浸水想定区域・土砂災害警戒区域・津波浸水想定）— 国土交通省 / 国土地理院
+     https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html
+     The 土砂災害警戒区域 tiles are made by GSI from 「国土数値情報（土砂災害警戒区域データ）」.
+   - Google tiles (mt1.google.com) — (c) Google. Direct tile access outside
+     the Google Maps Platform APIs may not be permitted by Google's terms.
+
+5. TEPCO Power Grid — available grid capacity (空容量)
+   - Source: 東京電力パワーグリッド株式会社「空容量マッピング」(as of 2025-01-07),
+     extracted from the published PDFs by src/extract_capacity_pdf.py.
+     System information page: https://www.tepco.co.jp/pg/consignment/system/index-j.html
+   - Files: data/{tochigi,chiba,ibaraki}/grid/capacity_*.csv, the cap_* fields
+     of docs/<pref>/lines_66kv.geojson, the capDistData array embedded in
+     docs/index.html, docs/tsuga.html, and the reports in output/tochigi/.
+   - CAUTION: These values are NOT licensed under MIT or ODbL by this
+     repository; all rights remain with TEPCO Power Grid, Inc. The terms
+     under which they may be redistributed have NOT been confirmed yet.
+     The values are a snapshot and may be outdated; always check the
+     current publication by TEPCO Power Grid.
+
+6. Ministry of the Environment — REPOS (再生可能エネルギー情報提供システム)
+   - Source: 環境省 REPOS https://www.renewable-energy-potential.env.go.jp/
+   - Files: data/tochigi/potential/repos_tochigi.csv and
+     data/potential/tochigi_potential.geojson (municipal potentials
+     estimated by apportioning REPOS figures — "環境省REPOS推計値に基づく按分推計").
+   - CAUTION: These values are NOT licensed under MIT or ODbL by this
+     repository. The REPOS terms of use for redistribution of derived values
+     have NOT been confirmed yet. The values are this repository's estimates,
+     not official REPOS figures.
+
+---
+
+Code in src/ and the web map HTML/JS: MIT License (see LICENSE).
+OSM-derived network data (lines_66kv / subs_66kv, tochigi_*_list.csv): ODbL v1.0,
+except the TEPCO-derived cap_* fields.
+Score layers: contain information from OpenStreetMap (ODbL),
+国土数値情報 (MLIT) and SRTM (NASA / USGS); see 1-3 above.
+TEPCO Power Grid and REPOS-derived data: provider's terms apply (see 5, 6).
+
+When reusing this repository, please retain the OpenStreetMap and
+国土数値情報 attributions above and comply with ODbL share-alike for the
+network data.
